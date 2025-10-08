@@ -204,4 +204,10 @@ void loop() {
     // Turn on LED on read error.
     digitalWrite(LED_PIN, LOW);
   }
+
+  if (mainButtonPressed)
+  {
+    mainButtonPressed = false;
+    M5.Axp.PowerOff();
+  }
 }
