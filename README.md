@@ -1,5 +1,5 @@
 # M5StickRangeFinder
-This is a small project that aims to drive a Benewake TF02 range finder module with the M5StickC to create a small and prortable range finder.
+This is a small project that aims to drive a Benewake TF02-Pro range finder module with the M5StickC to create a small and portable range finder device.
 
 ## Hardware setup
 You basically only need:
@@ -34,6 +34,18 @@ I connected them to the M5 Stick-C like this:
 | Tx | Rx (G26) |
 
 These are all hardware connections needed for this project to work.
+
+### Creating a housing for the device
+I will use my 3D printer to create a
+small housing that will combine
+the two units to a nice looking device.
+Both the range finder module and the
+M5 Stick will be mounted to it
+using the screw holes
+they provide.
+Once I finished building it
+I will provide pictures of the finished
+device.
 
 ## Things I learned with this project
 ### Serial setup
