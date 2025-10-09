@@ -4,13 +4,14 @@ This is a small project that aims to drive a Benewake TF02-Pro range finder modu
 ## Usage
 Turn the device on by pressing the
 reset button on the M5 Stick.
-The screen will show you the measured distance
+The screen will continuosly show the measured distance
 in cm/m. The unit will change depending
 on the distance value to make the result more readable.
 The battery percentage is shown at the top right corner.
 At the bottom of the screen the signal strength
 and the temperature of the range finder chip
 can be found. The temperature unit is °C.
+To turn the device back off, press the M5 main button.
 
 ## Hardware setup
 You basically only need:
