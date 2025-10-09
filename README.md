@@ -18,7 +18,7 @@ of your range finder module.
 The range finder has 4 connections.
 I got the range finder without the standard cable connector.
 Female gpio ports where soldered to the individual wires,
-so see wire colors where visible.
+so the wire colors where visible.
 In my case the wires had the following colors:
 * 5V (red)
 * Ground (black)
@@ -33,7 +33,7 @@ I connected them to the M5 Stick-C like this:
 | Rx | Tx (G0) |
 | Tx | Rx (G26) |
 
-These are all hardware connections needed for this project to work.
+These are all hardware connections that are needed for this project to work.
 
 ### Creating a housing for the device
 I will use my 3D printer to create a
@@ -43,9 +43,8 @@ Both the range finder module and the
 M5 Stick will be mounted to it
 using the screw holes
 they provide.
-Once I finished building it
 I will provide pictures of the finished
-device.
+device once I finished building it.
 
 ## Things I learned with this project
 ### Serial setup
@@ -55,17 +54,17 @@ the other two can be used freely.
 You can also use the first port if you don't need
 the serial monitor to work over the usb connection.
 I choose the 3rd port for communicating with the range finder module.
-The ESP32 on which the M5 Stick-C is based on allows
+The ESP32 on which the M5 Stick-C is based on, allows
 setting different rx and tx pins for the serial ports.
-Not every pin can be used, that's why I didn't
-use pin G36. The board would crash when I tried
+Not every pin can be used. That's why I didn't
+use pin G36. The board would crash when trying
 to initialize the serial port using this pin.
 But with G26 and G0 it works fine.
 These pins are part of the upper pin header of
 the M5 Stick-C and are right next to
-the 5V and Ground pins.
+the 5V and ground pins.
 To set this up I used:
-```
+```C++
 Serial2.begin(115200, (uint32_t)SERIAL_8N1, G26, G0);
 ```
 This uses the default baudrate and parity settings of the TF02-Pro.
