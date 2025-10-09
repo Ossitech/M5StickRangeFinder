@@ -1,6 +1,17 @@
 # M5StickRangeFinder
 This is a small project that aims to drive a Benewake TF02-Pro range finder module with the M5StickC to create a small and portable range finder device.
 
+## Usage
+Turn the device on by pressing the
+reset button on the M5 Stick.
+The screen will show you the measured distance
+in cm/m. The unit will change depending
+on the distance value to make the result more readable.
+The battery percentage is shown at the top right corner.
+At the bottom of the screen the signal strength
+and the temperature of the range finder chip
+can be found. The temperature unit is °C.
+
 ## Hardware setup
 You basically only need:
 * Benewake TF02-Pro range finder
@@ -70,7 +81,7 @@ Serial2.begin(115200, (uint32_t)SERIAL_8N1, G26, G0);
 This uses the default baudrate and parity settings of the TF02-Pro.
 
 ### Power consumption
-The range finder module can easily be powered by the M5-Stick,
+The range finder module can easily be powered by the M5 Stick,
 because it has the 5V output pin.
 Even though the builtin battery is not very big,
 it lasts long enough to take many measurements.
