@@ -180,55 +180,22 @@ void drawBatteryIcon()
   M5.Lcd.drawLine(width - 40, 2, width - 40, 3, color);
 }
 
-void setup() {
-  Serial2.begin(115200, (uint32_t)SERIAL_8N1, G26, G0);
+void updateBatteryInfo()
+{
+  static unsigned long lastUpdate = 0;
+  unsigned long now = millis();
 
-  pinMode(LED_PIN, OUTPUT);
-  // LED is wired as active low.
-  digitalWrite(LED_PIN, HIGH);
+  if (now - lastUpdate > 10000)
+  {
+    drawBatteryIcon();
+    printBattery();
 
-  pinMode(MAIN_BUTTON_PIN, INPUT_PULLDOWN);
-  attachInterrupt(MAIN_BUTTON_PIN, onButtonPressed, FALLING);
-
-  M5.begin();
-  M5.Lcd.setRotation(1);
-  M5.Lcd.fillScreen(TFT_BLACK);
-  width = M5.Lcd.width();
-  height = M5.Lcd.height();
-
-  drawSignalStrengthIcon();
-
-  drawBatteryIcon();
-  printBattery();
+    lastUpdate = now;
+  }
 }
 
-void loop() {
-  if (measuring)
-  {
-    int distance;
-    int strength;
-    int temp;
-    if (readDistance(distance, strength, temp))
-    {
-      digitalWrite(LED_PIN, HIGH);
-
-      printDistance(distance);
-      printTemp(temp);
-      printStrength(strength);
-    }
-    else
-    {
-      // Turn on LED on read error.
-      digitalWrite(LED_PIN, LOW);
-    }
-  }
-
-  if (M5.Axp.GetBtnPress() == 0x02)
-  {
-    // Power button short press.
-    M5.Axp.PowerOff(); 
-  }
-
+void handleMainButton()
+{
   if (mainButtonPressed)
   {
     mainButtonPressed = false;
@@ -252,4 +219,65 @@ void loop() {
 
     measuring = !measuring;
   }
+}
+
+void handlePowerButton()
+{
+  if (M5.Axp.GetBtnPress() == 0x02)
+  {
+    // Power off on power button short press.
+    M5.Axp.PowerOff(); 
+  }
+}
+
+void handleMeasurement()
+{
+  if (measuring)
+  {
+    int distance;
+    int strength;
+    int temp;
+    if (readDistance(distance, strength, temp))
+    {
+      digitalWrite(LED_PIN, HIGH);
+
+      printDistance(distance);
+      printTemp(temp);
+      printStrength(strength);
+    }
+    else
+    {
+      // Turn on LED on read error.
+      digitalWrite(LED_PIN, LOW);
+    }
+  }
+}
+
+void setup() {
+  Serial2.begin(115200, (uint32_t)SERIAL_8N1, G26, G0);
+
+  pinMode(LED_PIN, OUTPUT);
+  // LED is wired as active low.
+  digitalWrite(LED_PIN, HIGH);
+
+  pinMode(MAIN_BUTTON_PIN, INPUT_PULLDOWN);
+  attachInterrupt(MAIN_BUTTON_PIN, onButtonPressed, FALLING);
+
+  M5.begin();
+  M5.Lcd.setRotation(1);
+  M5.Lcd.fillScreen(TFT_BLACK);
+  width = M5.Lcd.width();
+  height = M5.Lcd.height();
+
+  drawSignalStrengthIcon();
+
+  drawBatteryIcon();
+  printBattery();
+}
+
+void loop() {
+  handleMeasurement();
+  handlePowerButton();
+  handleMainButton();
+  updateBatteryInfo();
 }
