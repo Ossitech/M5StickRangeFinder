@@ -11,7 +11,8 @@ The battery percentage is shown at the top right corner.
 At the bottom of the screen the signal strength
 and the temperature of the range finder chip
 can be found. The temperature unit is °C.
-To turn the device back off, press the M5 main button.
+To pause and resume the measurement, press the M5 main button.
+To turn the device back off, press the reset button.
 
 ## Hardware setup
 You basically only need:

@@ -6,11 +6,24 @@ const int LED_PIN = 10;
 
 bool mainButtonPressed = false;
 
+bool measuring = true;
+
 int width = 0;
 int height = 0;
 
 void onButtonPressed()
 {
+  static unsigned long lastCall = 0;
+
+  // Debounce
+  unsigned long now = millis();
+
+  if (now - lastCall < 200)
+  {
+    return;
+  }
+  
+  lastCall = now;
   mainButtonPressed = true;
 }
 
@@ -29,6 +42,16 @@ uint16_t constructValue(uint8_t l, uint8_t h)
   ((uint8_t*)&result)[1] = h;
 
   return result;
+}
+
+void discardSerialData()
+{
+  int receivedByteCount = Serial2.available();
+
+  for (int i = 0; i < receivedByteCount; i++)
+  {
+    Serial2.read();
+  }
 }
 
 void deconstructValue(uint16_t value, uint8_t& l, uint8_t& h)
@@ -188,26 +211,53 @@ void setup() {
 }
 
 void loop() {
-  int distance;
-  int strength;
-  int temp;
-  if (readDistance(distance, strength, temp))
+  if (measuring)
   {
-    digitalWrite(LED_PIN, HIGH);
+    int distance;
+    int strength;
+    int temp;
+    if (readDistance(distance, strength, temp))
+    {
+      digitalWrite(LED_PIN, HIGH);
 
-    printDistance(distance);
-    printTemp(temp);
-    printStrength(strength);
+      printDistance(distance);
+      printTemp(temp);
+      printStrength(strength);
+    }
+    else
+    {
+      // Turn on LED on read error.
+      digitalWrite(LED_PIN, LOW);
+    }
   }
-  else
+
+  if (M5.Axp.GetBtnPress() == 0x02)
   {
-    // Turn on LED on read error.
-    digitalWrite(LED_PIN, LOW);
+    // Power button short press.
+    M5.Axp.PowerOff(); 
   }
 
   if (mainButtonPressed)
   {
     mainButtonPressed = false;
-    M5.Axp.PowerOff();
+
+    if (measuring)
+    {
+      // Stop measuring
+      // Turn off red LED.
+      digitalWrite(LED_PIN, HIGH);
+
+      // Draw line under current distance value.
+      M5.Lcd.drawLine(20, 45, 120, 45, TFT_WHITE);
+    }
+    else
+    {
+      // Remove line under distance value.
+      M5.Lcd.drawLine(20, 45, 120, 45, TFT_BLACK);
+    }
+
+    discardSerialData();
+
+    measuring = !measuring;
   }
 }
