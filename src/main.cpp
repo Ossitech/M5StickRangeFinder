@@ -27,14 +27,6 @@ void onButtonPressed()
   mainButtonPressed = true;
 }
 
-void writeCommand()
-{
-  Serial2.write(0x5A);
-  Serial2.write(0x04);
-  Serial2.write(0x02);
-  Serial2.write(0x60);
-}
-
 uint16_t constructValue(uint8_t l, uint8_t h)
 {
   uint16_t result;
