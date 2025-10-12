@@ -1,9 +1,24 @@
 # M5StickRangeFinder
 This is a small project that aims to drive a Benewake TF02-Pro range finder module with the M5StickC to create a small and portable range finder device.
 
+## Installing on your M5 Stick-C
+This project uses [PlatformIO](https://platformio.org/) to build and
+flash the source code, which is an extension for
+Visual Studio Code.
+To use PlatformIO open Visual Studio Code
+and navigate to the "Extensions" menu.
+Search for "Platform IO" and install the extension.
+Clone this repository and open it in Visual Studio Code.
+Platform IO will now detect the platformio.ini file and
+set everything up.
+When PlatformIO is finished, connect your M5 Stick-C
+to your PC and press the little arrow pointing to the right
+in the bottom left corner of Visual Studio Code.
+This will compile and upload the code to your M5 Stick-C.
+
 ## Usage
 Turn the device on by pressing the
-reset button on the M5 Stick.
+reset button on the M5 Stick-C.
 The screen will continuosly show the measured distance
 in cm/m. The unit will change depending
 on the distance value to make the result more readable.
